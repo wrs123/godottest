@@ -1,0 +1,111 @@
+[gd_scene load_steps=7 format=3 uid="uid://h6ohla0rr2if"]
+
+[ext_resource type="Script" uid="uid://bk1p6oxj71n74" path="res://gameManager.gd" id="1_cfxbr"]
+[ext_resource type="Texture2D" uid="uid://bg7t1vr8w0jib" path="res://AssestBundle/Sprites/ForestBackground.png" id="1_lbs7c"]
+[ext_resource type="PackedScene" uid="uid://dt7j7wrkm7l52" path="res://scences/player.tscn" id="2_jx3ei"]
+[ext_resource type="PackedScene" uid="uid://b7wxv3273rdfk" path="res://scences/slime.tscn" id="3_xfuu6"]
+[ext_resource type="FontFile" uid="uid://pyvpv8q01b41" path="res://AssestBundle/Uranus_Pixel_11Px.ttf" id="5_b174u"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jx3ei"]
+distance = -130.0
+
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("spawn_timer", "score_label", "game_over_label")]
+y_sort_enabled = true
+script = ExtResource("1_cfxbr")
+slime_scence = ExtResource("3_xfuu6")
+spawn_timer = NodePath("SlimeTimer")
+score_label = NodePath("CanvasLayer/score")
+game_over_label = NodePath("CanvasLayer/gameover")
+
+[node name="bg1" type="Sprite2D" parent="."]
+position = Vector2(-118, 3)
+texture = ExtResource("1_lbs7c")
+metadata/_edit_lock_ = true
+
+[node name="bg2" type="Sprite2D" parent="."]
+position = Vector2(122, 3)
+texture = ExtResource("1_lbs7c")
+metadata/_edit_lock_ = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -1)
+zoom = Vector2(2.42, 2.42)
+
+[node name="Area2D" parent="." instance=ExtResource("3_xfuu6")]
+y_sort_enabled = true
+position = Vector2(224, 75)
+
+[node name="player" parent="." instance=ExtResource("2_jx3ei")]
+position = Vector2(-217, 109)
+
+[node name="Boundary" type="Node2D" parent="."]
+visible = false
+metadata/_edit_lock_ = true
+
+[node name="bottomAirWall" type="StaticBody2D" parent="Boundary"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary/bottomAirWall"]
+shape = SubResource("WorldBoundaryShape2D_jx3ei")
+
+[node name="leftAirWall" type="StaticBody2D" parent="Boundary"]
+position = Vector2(-107, 0)
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary/leftAirWall"]
+shape = SubResource("WorldBoundaryShape2D_jx3ei")
+
+[node name="rightAirWall2" type="StaticBody2D" parent="Boundary"]
+position = Vector2(110, 0)
+rotation = -1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary/rightAirWall2"]
+shape = SubResource("WorldBoundaryShape2D_jx3ei")
+
+[node name="topAirWall3" type="StaticBody2D" parent="Boundary"]
+position = Vector2(0, 173)
+rotation = -3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary/topAirWall3"]
+shape = SubResource("WorldBoundaryShape2D_jx3ei")
+
+[node name="SlimeTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="score" type="Label" parent="CanvasLayer"]
+offset_left = 40.0
+offset_top = 49.0
+offset_right = 208.0
+offset_bottom = 150.0
+theme_override_fonts/font = ExtResource("5_b174u")
+theme_override_font_sizes/font_size = 48
+text = "分数：0
+"
+metadata/_edit_lock_ = true
+
+[node name="gameover" type="Label" parent="CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = -50.5
+offset_right = 96.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0.270043, 0.448114, 0.23185, 1)
+theme_override_constants/outline_size = 60
+theme_override_fonts/font = ExtResource("5_b174u")
+theme_override_font_sizes/font_size = 120
+text = "游戏结束！"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 131
+metadata/_edit_lock_ = true
+
+[connection signal="timeout" from="SlimeTimer" to="." method="_spawn_slime"]
