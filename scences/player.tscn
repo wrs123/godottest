@@ -162,13 +162,14 @@ bullet_scence = ExtResource("2_efpdg")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_7xwe5")
 animation = &"idle"
-frame_progress = 0.41779
+frame_progress = 0.12701
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
 shape = SubResource("CircleShape2D_3j5lm")
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
 autostart = true
 
 [node name="gunAudio" type="AudioStreamPlayer2D" parent="."]
