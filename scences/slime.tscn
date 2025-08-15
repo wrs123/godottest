@@ -1,9 +1,16 @@
-[gd_scene load_steps=22 format=3 uid="uid://b7wxv3273rdfk"]
+[gd_scene load_steps=25 format=3 uid="uid://b7wxv3273rdfk"]
 
 [ext_resource type="Script" uid="uid://bygx6s7mx3ndt" path="res://enemy.gd" id="1_d1vlr"]
 [ext_resource type="Texture2D" uid="uid://kwiw4uiqpvb6" path="res://AssestBundle/Sprites/SlimerDeath.png" id="2_gr5yi"]
 [ext_resource type="Texture2D" uid="uid://dwk31nu4vedy7" path="res://AssestBundle/Sprites/Slimer.png" id="2_gssbl"]
+[ext_resource type="Shader" uid="uid://kn3mseyakbet" path="res://scripts/slime.gdshader" id="2_jqjoe"]
 [ext_resource type="AudioStream" uid="uid://cdrqbl5k50sip" path="res://AssestBundle/Audio/EnemyDeath.mp3" id="4_5gtdx"]
+[ext_resource type="Script" uid="uid://bcvawvv17q3gs" path="res://scripts/hit_flash.gd" id="6_mdeol"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mdeol"]
+resource_local_to_scene = true
+shader = ExtResource("2_jqjoe")
+shader_parameter/percent = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kjsu5"]
 atlas = ExtResource("2_gr5yi")
@@ -129,11 +136,10 @@ animations = [{
 script = ExtResource("1_d1vlr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_mdeol")
 sprite_frames = SubResource("SpriteFrames_kjsu5")
-animation = &"death"
+animation = &"idle"
 autoplay = "idle"
-frame = 2
-frame_progress = 0.575156
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 10)
@@ -142,6 +148,9 @@ shape = SubResource("CircleShape2D_gssbl")
 [node name="deathAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_5gtdx")
 volume_db = 8.0
+
+[node name="HitFlash" type="Node" parent="."]
+script = ExtResource("6_mdeol")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

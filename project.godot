@@ -22,6 +22,10 @@ Bgm="*res://scences/bgm.tscn"
 
 window/stretch/mode="canvas_items"
 
+[global_group]
+
+bullet=""
+
 [input]
 
 left={

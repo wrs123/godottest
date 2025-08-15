@@ -2,6 +2,7 @@ extends Area2D
 
 @export var slime_speed : float = -30
 var is_dead : bool = false
+@export var hp : float = 30
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -17,17 +18,25 @@ func _on_body_entered(body: Node2D) -> void:
 		body.game_over()
 		
 
-
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group('bullet'):
-		$AnimatedSprite2D.play("death")
-		is_dead = true
-		
-		get_tree().current_scene.screen_shake(2, 0.2)
+		#销毁子弹对象
 		area.queue_free()
-		get_tree().current_scene.score += 1
-		$deathAudio.play()
-		await get_tree().create_timer(0.6).timeout
-		queue_free()
+		#扣血
+		hp -= area.damage
+		
+		#血量清零：死亡
+		if hp == 0 or hp < 0 and !is_dead:
+			is_dead = true
+			$AnimatedSprite2D.play("death")
+			get_tree().current_scene.score += 1
+			$deathAudio.play()
+			await get_tree().create_timer(0.6).timeout
+			queue_free()
+		#还有血量，被击退并且显示击退特效
+		else:
+			hp -= area.damage
+			position -= Vector2(-3, 0)
+			$HitFlash.flash()
 		
 	

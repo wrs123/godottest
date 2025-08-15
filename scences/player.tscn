@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://da4tj8x72ic1q" path="res://scripts/player.gd" id="1_3j5lm"]
 [ext_resource type="Texture2D" uid="uid://b37lyoxa3ievd" path="res://AssestBundle/Sprites/Foxy.png" id="1_hqvp4"]
-[ext_resource type="PackedScene" uid="uid://k1u8vcrftu5j" path="res://scences/bullet.tscn" id="2_efpdg"]
+[ext_resource type="PackedScene" uid="uid://dfiafh0iu0ulk" path="res://scences/bullet_spark.tscn" id="2_7xwe5"]
 [ext_resource type="AudioStream" uid="uid://4dc51twlwqi7" path="res://AssestBundle/Audio/Gun.mp3" id="4_u4p4d"]
 [ext_resource type="AudioStream" uid="uid://b607k4uklaf56" path="res://AssestBundle/Audio/GameOver.mp3" id="5_7khn4"]
 [ext_resource type="AudioStream" uid="uid://baa6mq0ubko26" path="res://AssestBundle/Audio/Running.mp3" id="6_7xwe5"]
@@ -155,26 +155,27 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_3j5lm"]
 
 [node name="player" type="CharacterBody2D" node_paths=PackedStringArray("animater")]
+z_index = 1
 script = ExtResource("1_3j5lm")
 animater = NodePath("AnimatedSprite2D")
-bullet_scence = ExtResource("2_efpdg")
+bullet_scence = ExtResource("2_7xwe5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_7xwe5")
 animation = &"idle"
-frame_progress = 0.12701
+frame_progress = 0.686663
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
 shape = SubResource("CircleShape2D_3j5lm")
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.1
+[node name="ShootTimer" type="Timer" parent="."]
+wait_time = 0.8
 autostart = true
 
 [node name="gunAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_u4p4d")
-volume_db = 8.0
+volume_db = 2.0
 
 [node name="deadAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_7khn4")
@@ -188,5 +189,5 @@ volume_db = 12.0
 wait_time = 3.0
 one_shot = true
 
-[connection signal="timeout" from="Timer" to="." method="on_fire"]
+[connection signal="timeout" from="ShootTimer" to="." method="on_fire"]
 [connection signal="timeout" from="resetTimer" to="." method="reload_scene"]

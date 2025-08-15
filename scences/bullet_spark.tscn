@@ -1,0 +1,49 @@
+[gd_scene load_steps=9 format=3 uid="uid://dfiafh0iu0ulk"]
+
+[ext_resource type="Texture2D" uid="uid://7qvjhvsj642u" path="res://AssestBundle/Sprites/spark-preview1.png" id="1_68ll7"]
+[ext_resource type="Script" uid="uid://dl35gh3mgv631" path="res://scripts/bullet_spark.gd" id="1_gtu56"]
+[ext_resource type="Texture2D" uid="uid://cl1cef14r6tr0" path="res://AssestBundle/Sprites/spark-preview2.png" id="2_gtu56"]
+[ext_resource type="Texture2D" uid="uid://b51vhvp82bopc" path="res://AssestBundle/Sprites/spark-preview3.png" id="3_cau6w"]
+[ext_resource type="Texture2D" uid="uid://di1a6n45gysp4" path="res://AssestBundle/Sprites/spark-preview4.png" id="4_xhgit"]
+[ext_resource type="Texture2D" uid="uid://buymsq5euqagm" path="res://AssestBundle/Sprites/spark-preview5.png" id="5_163wc"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_68ll7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_68ll7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_gtu56")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_cau6w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_xhgit")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_163wc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gtu56"]
+radius = 42.8571
+height = 264.751
+
+[node name="Area2D" type="Area2D" groups=["bullet"]]
+script = ExtResource("1_gtu56")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_68ll7")
+autoplay = "default"
+frame_progress = 0.677
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+rotation = 1.57194
+scale = Vector2(0.21, 0.21)
+shape = SubResource("CapsuleShape2D_gtu56")

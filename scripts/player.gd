@@ -21,7 +21,8 @@ func _physics_process(delta: float) -> void:
 			Vector2.ZERO:
 				animater.play("idle")
 			_:
-				animater.play("run") 
+				pass
+				#animater.play("run") 
 		move_and_slide()
 
 
@@ -37,13 +38,16 @@ func game_over():
 
 
 func on_fire() -> void:
-	if velocity != Vector2.ZERO or is_gameover:
+	if is_gameover:
 		return
-		
-	$gunAudio.play()
+	
 	var bullet_node = bullet_scence.instantiate()
+	get_tree().current_scene.screen_shake(bullet_node.vibrate_level, 0.2)
+
 	bullet_node.position = position + Vector2(6, 6)
 	get_tree().current_scene.add_child(bullet_node)
+	
+	$gunAudio.play()
 
 
 func reload_scene() -> void:
